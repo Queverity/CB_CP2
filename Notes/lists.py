@@ -1,0 +1,1 @@
+# VL 1st Types of Lists Notes
