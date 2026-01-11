@@ -137,6 +137,7 @@ def compound_interest():
         else:
             years_compounding = int(years_compounding)
             break
+    # this inner function calculates the final amount of money in the account after it has been compounded.
     def compound_total():
         nonlocal starting_value
         nonlocal interest_rate
@@ -183,6 +184,7 @@ def budget_calc():
             allocation = round(allocation,2)
             percent_total += allocation
             allocations.append(allocation)
+    # this inner function calculates how much money will be allocated to each budget item, and then stes the value of the buget item in the dictionary to that allocated amount of money.
     def calc_budget():
         nonlocal budget_dictionary
         nonlocal allocations
