@@ -77,7 +77,7 @@
             # continue
         # else:
             # break
-functions = ["Calcuate a saving goal","Calcuate compounded interest","Calculate your monthly budget","Calcute sale price for an item","Calculate a tip"]
+functions = ["Calcuate a saving goal (how much time it will take to save up a certain amount of money)","Calcuate compounded interest (calculate the final mamount of money in an acount after it has been compounded)","Calculate your monthly budget (allocate money to each item in a budget)","Calcute sale price for an item (alculate final price after a discount)","Calculate a tip (calculate how much to tip based off of a given meal cost and percent)"]
 def save_goal():
     while True:
         saving_goal = input("How much money do you want to save? Do not include the currency sign in your answer.\n")
