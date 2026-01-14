@@ -51,15 +51,20 @@
         # if exit:
             # break
 
+
+4
 library = set()
 
 # This function is to print out the library for multiple of the other functions. It works by using a for loop to go through the set of items, then printing out those tuples in a nice, clean way.
 def view_library(library):
     # used for numbering each book
     count = 0
-    for i in library:
-        count += 1
-        print(f"{count}. {i[0]} by {i[1]}")
+    if bool(library) == False:
+        print("Your library is empty.")
+    else:
+        for i in library:
+            count += 1
+            print(f"{count}. {i[0]} by {i[1]}")
 
 # This function is to add an item to the library set. It works by taking the name of the book, the author of the book, appending those both to a list (in book name then author order), converting that list into a tuple, and then returning that tuple to the main function.
 def add_item():
@@ -123,9 +128,10 @@ def search_library(library):
             else:
                 pass
     # if the found_items list is empty, meaning nothing was found
-    if found_items == False:
+    if bool(found_items) == False:
         print("No books were found with that search term.")
     else:
+        print("Books found:")
         # itereate through the list in a similar way to the view_library function
         for i in found_items:
             count += 1
