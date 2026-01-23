@@ -204,22 +204,42 @@ def generate_password(user_requests,password_count,password_length):
         password = "" # Character will be appended to this.
         # iterate through this, and thus add as many characters to the password, as the password_length the user set.
         for i in range(password_length):
-            character = random.randint(0,3)
-            # Generate a random number to decide what kind of character it will be. Check if user requested that character, if they did, append it to the password, if not, check each other character in turn. 
-            if character == 0 and "Uppercase" in user_requests:
-                character = chr(random.randint(65,91))
-                character = str(character)
-                password += character
-            elif character == 1 and "Lowercase" in user_requests:
-                character = chr(random.randint(97,123))
-                character = str(character)
-                password += character
-            elif character == 2 and "Numbers" in user_requests:
-                password += str(random.randint(1,9))
             
-            elif character == 3 and "Special" in user_requests:
-                    special_character = random.choice(special_characters)
-                    password += special_character
+            # Generate a random number to decide what kind of character it will be. Check if user requested that character, if they did, append it to the password, if not, check each other character in turn. 
+            while True:
+                character = random.randint(0,3)
+                if character == 0:
+                    if "Uppercase" in user_requests:
+                        character = chr(random.randint(65,91))
+                        character = str(character)
+                        password += character
+                        break
+                    else:
+                        pass
+
+                if character == 1:
+                    if "Lowercase" in user_requests:
+                        character = chr(random.randint(97,123))
+                        character = str(character)
+                        password += character
+                        break
+                    else:
+                        pass
+
+                if character == 2:
+                    if "Numbers" in user_requests:
+                        password += str(random.randint(1,9))
+                        break
+                
+                if character == 3:
+                        if "Special" in user_requests:
+                            special_character = random.choice(special_characters)
+                            password += special_character
+                            break
+                        else:
+                            pass
+                
+                continue
         passwords_generated.append(password)
     return passwords_generated
 
