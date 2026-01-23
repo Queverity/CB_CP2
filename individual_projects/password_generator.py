@@ -243,7 +243,7 @@ def user_interface():
         for i in passwords_generated:
             print(i)
 
-        go_again = input("Would like to generate new passwords? Y/N").strip().capitalize()
+        go_again = input("Would you like to generate new passwords? Y/N").strip().capitalize()
         if go_again == "Y":
             continue
         else:
