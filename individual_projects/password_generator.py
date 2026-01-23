@@ -229,7 +229,7 @@ def generate_password(user_requests,password_count,password_length):
                                 character += character
                         else:
                             character -= 3
-            passwords_generated.append(password)
+        passwords_generated.append(password)
     return passwords_generated
 
 def user_interface():
