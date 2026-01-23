@@ -117,6 +117,8 @@ import random
             # display "Goodbye!"
             # break
 
+special_characters = ["`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","]","{","}","|",";",":","'",'"',",","<",".",">","/","?"]
+
 
 def user_inputs():
     # This is where what the user wants in the password will be stored.
@@ -208,27 +210,16 @@ def generate_password(user_requests,password_count,password_length):
                 character = chr(random.randint(65,91))
                 character = str(character)
                 password += character
-            else:
-                if character == 1 and "Lowercase" in user_requests:
-                    character = chr(random.randint(97,123))
-                    character = str(character)
-                    password += character
-                else:
-                    if character == 2 and "Numbers" in user_requests:
-                        password += str(random.randint(1,9))
-                    else:
-                        if character == 3 and "Special" in user_requests:
-                            this_or_that = random.randint(0,1)
-                            if this_or_that == 0:
-                                character = chr(random.randint(65,91))
-                                character = str(character)
-                                character += character
-                            else:
-                                character = chr(random.randint(65,91))
-                                character = str(character)
-                                character += character
-                        else:
-                            character -= 3
+            elif character == 1 and "Lowercase" in user_requests:
+                character = chr(random.randint(97,123))
+                character = str(character)
+                password += character
+            elif character == 2 and "Numbers" in user_requests:
+                password += str(random.randint(1,9))
+            
+            elif character == 3 and "Special" in user_requests:
+                    special_character = random.choice(special_characters)
+                    password += special_character
         passwords_generated.append(password)
     return passwords_generated
 
