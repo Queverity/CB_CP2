@@ -1,5 +1,6 @@
 # CB 1st Random Password Generator
 import random
+import string
 
 # Pseudocode
 
@@ -128,6 +129,9 @@ def user_inputs():
         # Used in a for loop later on to generate however many passwords the user wants.
         password_count = input("How many passwords do you want to generate?").strip().capitalize()
         # try to convert the input into an integer (means it is a number if it works), if it doesn't work, tell them to try again
+        if password_count == "0":
+            print("You cannot generate zero passwords.")
+            continue
         try:
             password_count = int(password_count)
             break
@@ -138,6 +142,9 @@ def user_inputs():
     while True:
         # Used in another for loop later on to see how many characters to add to the password
         password_length = input("How long do you want the password to be?").strip().capitalize()
+        if password_length == "0":
+            print("The password cannot be zero characters long.")
+            continue
         try:
             password_length = int(password_length)
             break
@@ -194,65 +201,65 @@ def user_inputs():
             print("Invalid answer")
             continue
     
+    # vital variables returned
     return user_requests,password_count,password_length
 
-def generate_password(user_requests,password_count,password_length):
-    # used to store all passwords generated during nested for loop
+def generate_password(user_requests,password_count,password_length,special_characters):
+    # pool of character avaiable to be added to the password
+    avaiable_characters = ""
+    # used to store different passwords generated, returned at the end of the loop
     passwords_generated = []
-    # iterate through this, and thus generate as many passwords as, the amount of passwords the user asked for.
-    for i in range(password_count):
-        password = "" # Character will be appended to this.
-        # iterate through this, and thus add as many characters to the password, as the password_length the user set.
-        for i in range(password_length):
-            
-            # Generate a random number to decide what kind of character it will be. Check if user requested that character, if they did, append it to the password, if not, check each other character in turn. 
-            while True:
-                character = random.randint(0,3)
-                if character == 0:
-                    if "Uppercase" in user_requests:
-                        character = chr(random.randint(65,91))
-                        character = str(character)
-                        password += character
-                        break
-                    else:
-                        pass
+    # if user asked for uppercase letters
+    if "Uppercase" in user_requests:
+        # string.ascii_uppercase is just a string of all uppercase letters.
+        avaiable_characters += string.ascii_uppercase
 
-                if character == 1:
-                    if "Lowercase" in user_requests:
-                        character = chr(random.randint(97,123))
-                        character = str(character)
-                        password += character
-                        break
-                    else:
-                        pass
+    if "Lowercase" in user_requests:
+        # string.ascii_lowercase is just a string of all lowercase letters.
+        avaiable_characters += string.ascii_lowercase
+    
+    if "Numbers" in user_requests:
+        avaiable_characters += "0123456789"
 
-                if character == 2:
-                    if "Numbers" in user_requests:
-                        password += str(random.randint(1,9))
-                        break
-                
-                if character == 3:
-                        if "Special" in user_requests:
-                            special_character = random.choice(special_characters)
-                            password += special_character
-                            break
-                        else:
-                            pass
-                
-                continue
-        passwords_generated.append(password)
-    return passwords_generated
+    if "Special" in user_requests:
+        # turn the special characters list into a string, then add it to the avaiable characters string.
+        special_characters = ''.join(special_characters)
+        avaiable_characters += special_characters
+    # if user_requests is empty, meaning the user said no to all questsions
+    if bool(user_requests) == False:
+        print("You asked for nothing to be added to the password.")
+        return passwords_generated
+    else:
+        # generate as many passwords as the user asked for
+        for _ in range(password_count):
+            # string to add characters to to generate the password
+            password = ""
+            # itereate through this loop as many characters as the user asked for
+            for _ in range (password_length):
+                # randomly pick a character for the pool of avaiable characters
+                password += random.choice(avaiable_characters)
+            # add the new password to generated passwords list
+            passwords_generated.append(password)
+        # once all passwords are generated, return the list
+        return passwords_generated
+
+
+    
+
 
 def user_interface():
     print("This is a random password generator!")
     while True:
         user_requests,password_count,password_length = user_inputs()
 
-        passwords_generated = generate_password(user_requests,password_count,password_length)
-
+        passwords_generated = generate_password(user_requests,password_count,password_length,special_characters)
+        # print out all passwords generated nicely using a for loop to go through the list, if list is empty, say "None", as no passwords were generated
         print("Passwords generated:")
-        for i in passwords_generated:
-            print(i)
+        if bool(passwords_generated) == False:
+            print("None")
+        else:
+            for i in passwords_generated:
+                print(i)
 
         go_again = input("Would you like to generate new passwords? Y/N").strip().capitalize()
         if go_again == "Y":
