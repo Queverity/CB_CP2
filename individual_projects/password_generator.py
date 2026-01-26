@@ -266,5 +266,6 @@ def user_interface():
             continue
         else:
             print("Goodbye!")
+            break
 
 user_interface()
