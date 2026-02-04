@@ -19,29 +19,32 @@ def list_parser():
 
 # Pseudocode
 
-# define function title_filter(keyword):
+# This filter can be used for Director, Genre, Rating, and Actor, because they all work incredibly similarly.
+
+# define function multi_filter(movies,keyword,filter_type):
     # matching_movies = []
     # for movie in movies:
-        # check if keyword is anywhere in the movie title (doesn't have to match exactly)
-        # if it is:
+        # if keyword in movie[filter_type]:
             # matching_movies.append(movie)
-    
+        # else:
+            # pass
+    # return matching_movies
 
-# define function director_filter():
+# define function length_filter(movies,length):
+    # matching_movies = []
+    # for movie in movies:
+        # see if movie length is less than or equal to entered length:
+        # if so:
+            # matching_movies.append(movie)
 
-# define function genre_filter():
+# define function filter_combiner(movies):
 
-# define function rating_filter():
+# define function print_movies(movies):
+    # for line in movies:
+            # print(f"Title: {line['Title']} | Director(s): {line['Director']} | Genre(s): {line['Genre']} | Rating: {line['Rating']} | Length: {line['Length (min)']} | Notable Actors: {line['Notable Actors']}")
 
-# define function length_filter():
-
-# define function actor_filter():
-
-# define function filter_combiner():
-
-# define function print_movies():
-
-# define function main_menu():
+# define function main_menu(movies):
+    #
 
 
 def title_filter():
