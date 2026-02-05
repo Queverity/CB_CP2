@@ -13,8 +13,8 @@ def list_parser():
     except:
         print("Couldn't open the CSV")
     else:
-        # for line in movies:
-            # print(f"Title: {line['Title']} | Director(s): {line['Director']} | Genre(s): {line['Genre']} | Rating: {line['Rating']} | Length: {line['Length (min)']} | Notable Actors: {line['Notable Actors']}")
+        for line in movies:
+            print(f"Title: {line['Title']} | Director(s): {line['Director']} | Genre(s): {line['Genre']} | Rating: {line['Rating']} | Length: {line['Length (min)']} minutes | Notable Actors: {line['Notable Actors']}")
         return movies
 
 # Pseudocode
@@ -63,3 +63,5 @@ def length_filter():
 
 def actor_filter():
     pass
+
+list_parser()
