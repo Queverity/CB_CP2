@@ -4,7 +4,7 @@ import csv
 
 def list_parser():
     try:
-        with open("individual_projects\movies_list.csv", mode = "r") as movies_list:
+        with open("individual_projects/movies_list.csv", mode = "r") as movies_list:
             content = csv.reader(movies_list)
             headers = next(content)
             movies = []
