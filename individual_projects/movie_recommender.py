@@ -26,7 +26,7 @@ def movie_filters(movies):
                 matching_movies.append(movie)
         return matching_movies
     
-    def director_filter(query, movies = matching_movies):
+    def director_filter(movies = matching_movies):
         matching_movies = []
         query = input("Enter the director of the movie you want to search for:\n").lower()
         for movie in movies:
@@ -34,7 +34,7 @@ def movie_filters(movies):
                 matching_movies.append(movie)
         return matching_movies
     
-    def genre_filter(query, movies = matching_movies):
+    def genre_filter(movies = matching_movies):
         matching_movies = []
         query = input("Enter the genre of the movie you want to search for:\n").lower()
         for movie in movies:
@@ -42,15 +42,15 @@ def movie_filters(movies):
                 matching_movies.append(movie)
         return matching_movies
     
-    def rating_filter(query, movies = matching_movies):
+    def rating_filter(movies = matching_movies):
         matching_movies = []
         query = input("Enter the rating (G, PG, PG-13, R) of the movie you want to search for:\n").lower()
         for movie in movies:
-            if query in movie['Rating'].lower():
+            if query == movie['Rating'].lower():
                 matching_movies.append(movie)
         return matching_movies
     
-    def length_filter(query, movies = matching_movies):
+    def length_filter(movies = matching_movies):
         matching_movies = []
         while True:
             query = input("Enter the length (in min) of the movies you want to search for. Any movies that are shorter or equal to this length will be found. Enter number:\n")
@@ -65,7 +65,7 @@ def movie_filters(movies):
                     matching_movies.append(movie)
             return matching_movies
     
-    def actors_filter(query, movies = matching_movies):
+    def actors_filter(movies = matching_movies):
         matching_movies = []
         query = input("Enter the notable actors of the movie you want to search for:\n").lower()
         for movie in movies:
@@ -77,66 +77,86 @@ def movie_filters(movies):
         filter_type = input("How would you like to filter your movies?\n1. By Title\n2. By Director(s)\n3. By Rating\n4. By Length\n5. By Notable Actors\n6. By Genre\nEnter Number:\n").strip()
         match filter_type:
             case "1":
-                matching_movies = title_filter()
-                continue_filtering = input("Would you like to filter your movies more? Y/N:\n").strip().capitalize()
-                if continue_filtering == "Y":
-                    continue
-                else:
-                    return matching_movies
-                
+                matching_movies = title_filter(movies = matching_movies)
             case "2":
-                matching_movies = director_filter()
-                continue_filtering = input("Would you like to filter your movies more? Y/N:\n").strip().capitalize()
-                if continue_filtering == "Y":
-                    continue
-                else:
-                    return matching_movies
+                matching_movies = director_filter(movies = matching_movies)
             case "3":
-                matching_movies = rating_filter()
-                continue_filtering = input("Would you like to filter your movies more? Y/N:\n").strip().capitalize()
-                if continue_filtering == "Y":
-                    continue
-                else:
-                    return matching_movies
+                matching_movies = rating_filter(movies = matching_movies)
             case "4":
-                matching_movies = length_filter()
-                continue_filtering = input("Would you like to filter your movies more? Y/N:\n").strip().capitalize()
-                if continue_filtering == "Y":
-                    continue
-                else:
-                    return matching_movies
+                matching_movies = length_filter(movies = matching_movies)
             case "5":
-                matching_movies = actors_filter()
-                continue_filtering = input("Would you like to filter your movies more? Y/N:\n").strip().capitalize()
-                if continue_filtering == "Y":
-                    continue
-                else:
-                    return matching_movies
+                matching_movies = actors_filter(movies = matching_movies)
             case "6":
-                matching_movies = genre_filter()
-                continue_filtering = input("Would you like to filter your movies more? Y/N:\n").strip().capitalize()
-                if continue_filtering == "Y":
-                    continue
-                else:
-                    return matching_movies
+                matching_movies = genre_filter(movies = matching_movies) 
             case _:
                 print("Please enter 1, 2, 3, 4, 5, or 6.")
                 continue
+        
+        continue_filtering = input("Would you like to filter your movies more? Y/N:\n").strip().capitalize()
+        if continue_filtering == "Y":
+            continue
+        else:
+            return matching_movies
 
+def new_movie_data(movies):
+    new_movie = []
+    
+    new_title = input("Enter the title of the movie you want to add.").strip()
+    # add something here to make sure the user can't enter a movie that is already in the list
+    new_directors = input("Enter the director(s) of the movie you want to add. Seperate director names with a comma").strip()
+    new_genres = input("Enter the genre(s) of the movie you want to add. Seperate genres with a comma.").strip()
+    new_rating = input("Enter the rating of the movie you want to add.").strip().upper()
+    while True:
+        new_length = input("Enter the length (in min) of the movie you want to add.").strip()
+        try:
+            new_length = int(new_length)
+        except:
+            print("Please enter a number.")
+            continue
+        else:
+            break
+    new_actors = input("Enter the notable actor(s) of the movie you want to add. Seperate actor names with a comma.").strip()
+
+    new_movie.append(new_title)
+    new_movie.append(new_directors)
+    new_movie.append(new_genres)
+    new_movie.append(new_rating)
+    new_movie.append(new_length)
+    new_movie.append(new_actors)
+    return new_movie
+
+def add_movie(new_movie):
+    try:
+        with open("individual_projects/movies_list.csv",mode='a',newline='') as movies:
+            writer = csv.writer(movies)
+            writer.writerow(new_movie)
+    except:
+        print("The movie could not be written to the CSV file.")
+
+def print_movies(movies):
+    for line in movies:
+        print(f"Title: {line['Title']} | Director(s): {line['Director']} | Genre(s): {line['Genre']} | Rating: {line['Rating']} | Length: {line['Length (min)']} | Notable Actors: {line['Notable Actors']}")              
+            
 def main_menu():
     movies = list_parser()
     print("This program is a movie reccomender! You can use it to search through a pre-made list of movies bsaed on a variety of different filters, see the full movie list, or add something to the movie list!")
     while True:
-        action = input("What would you like to do?\n1. Print Full Movie List\n2. Search/Get Reccomendations\n3. Exit\nEnter Number:\n").strip()
+        action = input("What would you like to do?\n1. Print Full Movie List\n2. Search/Get Reccomendations\n3. Add Movie\n4. Exit\nEnter Number:\n").strip()
         match action:
             case "1":
                 print("Movie List:")
-                for line in movies:
-                    print(f"Title: {line['Title']} | Director(s): {line['Director']} | Genre(s): {line['Genre']} | Rating: {line['Rating']} | Length: {line['Length (min)']} | Notable Actors: {line['Notable Actors']}")
+                print_movies(movies)
             case "2":
-                # figure out the filters
-                pass
+                matching_movies = movie_filters(movies)
+                if bool(matching_movies) == False:
+                    print("No movies were found within those filters. Perhaps try removing or easing up on some filters.")
+                else:
+                    print_movies(matching_movies)
             case "3":
+                new_movie = new_movie_data(movies)
+                add_movie(new_movie)
+                pass
+            case "4":
                 print("Goodbye!")
                 break
             case _:
