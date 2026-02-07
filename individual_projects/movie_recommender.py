@@ -22,7 +22,7 @@ def movie_filters(movies):
         matching_movies = []
         query = input("Enter the title of the movie you want to search for:\n").lower()
         for movie in movies:
-            if query in movie['Title'].lower():
+            if query.lower() in movie['Title'].lower():
                 matching_movies.append(movie)
         return matching_movies
     
@@ -98,36 +98,46 @@ def movie_filters(movies):
         else:
             return matching_movies
 
+def check_title(movies,new_title):
+    for title in movies:
+        if new_title.lower() == title['Title'].lower():
+            print("That movie is already in the list.")
+            return False
+    return True
+
 def new_movie_data(movies):
     new_movie = []
-    
-    new_title = input("Enter the title of the movie you want to add.").strip()
-    # add something here to make sure the user can't enter a movie that is already in the list
-    new_directors = input("Enter the director(s) of the movie you want to add. Seperate director names with a comma").strip()
-    new_genres = input("Enter the genre(s) of the movie you want to add. Seperate genres with a comma.").strip()
-    new_rating = input("Enter the rating of the movie you want to add.").strip().upper()
     while True:
-        new_length = input("Enter the length (in min) of the movie you want to add.").strip()
-        try:
-            new_length = int(new_length)
-        except:
-            print("Please enter a number.")
+        new_title = input("Enter the title of the movie you want to add.").strip()
+        title_check = check_title(movies,new_title)
+        if title_check == False:
             continue
         else:
-            break
-    new_actors = input("Enter the notable actor(s) of the movie you want to add. Seperate actor names with a comma.").strip()
+            new_directors = input("Enter the director(s) of the movie you want to add. Seperate director names with a comma").strip()
+            new_genres = input("Enter the genre(s) of the movie you want to add. Seperate genres with a comma.").strip()
+            new_rating = input("Enter the rating of the movie you want to add.").strip().upper()
+            while True:
+                new_length = input("Enter the length (in min) of the movie you want to add.").strip()
+                try:
+                    new_length = int(new_length)
+                except:
+                    print("Please enter a number.")
+                    continue
+                else:
+                    break
+            new_actors = input("Enter the notable actor(s) of the movie you want to add. Seperate actor names with a comma.").strip()
 
-    new_movie.append(new_title)
-    new_movie.append(new_directors)
-    new_movie.append(new_genres)
-    new_movie.append(new_rating)
-    new_movie.append(new_length)
-    new_movie.append(new_actors)
-    return new_movie
+            new_movie.append(new_title)
+            new_movie.append(new_directors)
+            new_movie.append(new_genres)
+            new_movie.append(new_rating)
+            new_movie.append(new_length)
+            new_movie.append(new_actors)
+            return new_movie
 
 def add_movie(new_movie):
     try:
-        with open("individual_projects/movies_list.csv",mode='a',newline='') as movies:
+        with open("individual_projects/movies_list.csv",'a',newline='') as movies:
             writer = csv.writer(movies)
             writer.writerow(new_movie)
     except:
