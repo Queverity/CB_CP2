@@ -8,19 +8,27 @@ def library_parser():
         headers = next(content)
         items = []
         for line in library:
-            items.append({headers[0]:line[0],headers[1]:line[1],headers[2]:line[2],headers[3]:line[3],headers[4]:line[4],headers[5]:line[5]})
+            items.append({headers[0]:line[0],headers[1]:line[1],headers[2]:line[2],headers[3]:line[3]})
         return items
 
 
-def check_title(library,new_title):
+def check_if_exists(library,new_thing,mode):
     # iterate through the movies list to see if the given title is already in the movie list
-    for media in library:
-        if new_title.lower() == media['title'].lower():
-            print("That media is already in the list.")
-            return False
-    return True
+    if mode == "1":
+        for media in library:
+            if new_thing.lower() == media['title'].lower():
+                print("That media is already in the list.")
+                return False
+        return True
+    
+    elif mode == "2":
+        for media in library:
+            if new_thing.lower() == media['title'].lower():
+                return True
+        return False
 
 def basic_view(library):
+
     for i in library:
         number = library.index(i) + 1
         print(f"{number}. {i['title']} by {i['creator']}")
@@ -28,13 +36,13 @@ def basic_view(library):
 def detailed_view(library):
     for i in library:
         number = library.index(i) + 1
-        print(f"{number}. {i['title']} by {i['creator']}. A(n) {i['genre']} novel published in {i['year']}.")
+        print(f"{number}. {i['title']} by {i['creator']}. A(n) {i['genre']} (whatever it is) published in {i['year']}.")
 
 def add_item(library):
     new_media = {}
     while True:
         new_title = input("Enter the title of the media you are adding:\n").strip()
-        title_check = check_title(library,new_title)
+        title_check = check_if_exists(library,new_title,mode="1")
         if title_check == False:
             continue
         else:
@@ -51,10 +59,62 @@ def add_item(library):
     return new_media
 
 def delete_item(library):
-    pass
+    basic_view(library)
+    while True:
+        item_to_delete = input("Enter the name of the media you want to remove exactly as seen in the list.").lower().strip()
+        exists = check_if_exists(library,item_to_delete,mode="2")
+        if exists == False:
+            print("That is not an item in the library.")
+        else:
+            for i in library:
+                if item_to_delete == i['title'].lower():
+                    library.pop(i)
+                    break
+                else:
+                    pass
+            break
+    
+    return library
+ 
+def update_item(library,new_thing,item_to_update,mode):
+    for i in library:
+        if item_to_update == i[mode].lower():
+            i[mode] == new_thing
 
-def update_item(libraryt):
-    pass
+    return library
+
+def update_item_menu(library):
+    detailed_view(library)
+    while True:
+        item_to_update = input("Enter the name of the media you want to update exactly as seen on the list.").lower()
+        exists = check_if_exists(library,item_to_update,mode="2")
+        if exists == False:
+            print("That piece of media is not in the list.")
+        else:
+            while True:
+                thing_to_change = input("What would you like to update?\n1. Title\n2. Creator Name\n3. year of Release\n4. Genre(s)\nEnter number:\n").strip()
+                match thing_to_change:
+                    case "1":
+                        new_title = input("Enter the new title for the media you are updating.").strip()
+                        library = update_item(library,new_title,item_to_update,mode='title')
+                    case "2":
+                        new_creator = input("Enter the name of the creator for the media you are updating.").strip()
+                        library = update_item(library,new_creator,item_to_update,mode='creator')
+                    case "3":
+                        new_year = input("Enter the year of release for the media you are updating.").strip()
+                        library = update_item(library,new_year,item_to_update,mode='year')
+                    case "4":
+                        new_genres = input("Enter the new genre(s) for the media you are updating. If there are multiple, seperate them with a forward slash (/).").strip()
+                        library = update_item(library,new_genres,item_to_update,mode='genre')
+                    case _:
+                        print("Please enter 1, 2, 3, or 4.")
+                        continue
+                continue_update = input("Would you like to continue updating this item? Y/N:\n").strip().capitalize()
+                if continue_update == "Y":
+                    continue
+                else:
+                    break
+        return library
 
 def save_library(library):
 
@@ -67,3 +127,37 @@ def save_library(library):
         writer = csv.writer(new_library)
         for i in library:
             writer.writerow(i)
+
+def main_menu():
+    library = library_parser()
+    print("This is a library manager. It saves to a file, so it actually persists across runs this time! You can view your library, add items, delete items, and update items using this program.")
+    while True:
+        action = input("What would you like to do?\n1. Basic View\n2. Detailed View\n3. Add Item\n4. Delete Item\n5. Update Item\n6. Save Library\n7. Exit").strip()
+        match action:
+            case "1":
+                basic_view(library)
+            case "2":
+                detailed_view(library)
+            case "3":
+                new_media = add_item(library)
+                library.append(new_media)
+            case "4":
+                library = delete_item(library)
+            case "5":
+                library = update_item_menu(library)
+            case "6":
+                save_library()
+                library = library_parser()
+                print("Library saved")
+            case "7":
+                check_if_save = input("Are you sure you want to exit? Any unsaved information will be lost. Y/N:\n").strip().capitalize()
+                if check_if_save == "Y":
+                    print("Goodbye!")
+                    break
+                else:
+                    continue
+            case _:
+                print("Please enter 1, 2, 3, 4, 5, 6, or 7.")
+                continue
+
+main_menu()
