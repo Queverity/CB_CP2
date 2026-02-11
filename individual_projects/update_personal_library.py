@@ -5,10 +5,9 @@ import csv
 def library_parser():
     with open("individual_projects/personal_library.csv",mode="r") as library:
         reader = csv.DictReader(library)
-        fieldnames = ['title','creator','year','genre']
         items = []
         for line in reader:
-            items.append({fieldnames[0]:line[0],fieldnames[1]:line[1],fieldnames[2]:line[2],fieldnames[3]:line[3]})
+            items.append(line)
         return items
 
 
@@ -130,10 +129,9 @@ def save_library(library):
 
 def main_menu():
     library = library_parser()
-    print(library)
     print("This is a library manager. It saves to a file, so it actually persists across runs this time! You can view your library, add items, delete items, and update items using this program.")
     while True:
-        action = input("What would you like to do?\n1. Basic View\n2. Detailed View\n3. Add Item\n4. Delete Item\n5. Update Item\n6. Save Library\n7. Exit").strip()
+        action = input("What would you like to do?\n1. Basic View\n2. Detailed View\n3. Add Item\n4. Delete Item\n5. Update Item\n6. Save Library\n7. Exit\nEnter number:\n").strip()
         match action:
             case "1":
                 basic_view(library)
@@ -147,7 +145,7 @@ def main_menu():
             case "5":
                 library = update_item_menu(library)
             case "6":
-                save_library()
+                save_library(library)
                 library = library_parser()
                 print("Library saved")
             case "7":
