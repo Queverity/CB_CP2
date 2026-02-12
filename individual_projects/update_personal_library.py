@@ -132,8 +132,44 @@ def update_item_menu(library):
                         case _:
                             print("Please enter 1, 2, 3, or 4.")
                             continue
-                    
-                    
+
+def search_for_item(matching_items,mode,library,query):
+    matching_items = []
+    for i in library:
+        if query.lower() in i[mode].lower():
+            matching_items.append(i)
+
+    return matching_items
+
+def search_library(library):
+    matching_items = library
+    while True:
+        search_item = input("What would you like to search by?\n1. Title\n2. Creator Name\n3. Year of Release\n4. Genre(s)\nEnter number:\n").strip()
+        match search_item:
+            case "1":
+                mode = 'title'
+                search_title = input("Enter the title of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_title)
+            case "1":
+                mode = 'title'
+                search_title = input("Enter the name of the creator of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_title)
+            case "1":
+                mode = 'title'
+                search_title = input("Enter the release year of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_title)
+            case "1":
+                mode = 'title'
+                search_title = input("Enter the genre of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_title)
+            case _:
+                print("Please enter 1, 2, 3, or 4.")
+                continue
+        continue_searching = input("Would you like to continue refining your search? Y/N:\n").strip().capitalize()
+        if continue_searching == "Y":
+            continue
+        else:
+            return matching_items
 
 def save_library(library):
 
@@ -151,9 +187,9 @@ def save_library(library):
 
 def main_menu():
     library = library_parser()
-    print("This is a library manager. It saves to a file, so it actually persists across runs this time! You can view your library, add items, delete items, and update items using this program.")
+    print("This is a library manager. It saves to a file, so it actually persists across runs this time! You can view and search through your library, add items, delete items, and update items using this program.")
     while True:
-        action = input("What would you like to do?\n1. Basic View\n2. Detailed View\n3. Add Item\n4. Delete Item\n5. Update Item\n6. Save Library\n7. Exit\nEnter number:\n").strip()
+        action = input("What would you like to do?\n1. Basic View\n2. Detailed View\n3. Add Item\n4. Delete Item\n5. Update Item\n6. Save Library\n7. Search through library\n8. Exit\nEnter number:\n").strip()
         match action:
             case "1":
                 basic_view(library)
@@ -171,6 +207,13 @@ def main_menu():
                 library = library_parser()
                 print("Library saved")
             case "7":
+                matching_items = search_library(library)
+                print("Titles found:")
+                if bool(matching_items) == False:
+                    print("No items were found within those search terms.")
+                else:
+                    detailed_view(matching_items)
+            case "8":
                 check_if_save = input("Are you sure you want to exit? Any unsaved information will be lost. Y/N:\n").strip().capitalize()
                 if check_if_save == "Y":
                     print("Goodbye!")
@@ -178,7 +221,7 @@ def main_menu():
                 else:
                     continue
             case _:
-                print("Please enter 1, 2, 3, 4, 5, 6, or 7.")
+                print("Please enter 1, 2, 3, 4, 5, 6, 7, or 8.")
                 continue
 
 main_menu()
