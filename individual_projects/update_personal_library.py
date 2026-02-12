@@ -10,32 +10,41 @@ def library_parser():
             items.append(line)
         return items
 
-
 def check_if_exists(library,new_thing,mode):
     # iterate through the movies list to see if the given title is already in the movie list
-    if mode == "1":
-        for media in library:
-            if new_thing.lower() == media['title'].lower():
-                print("That media is already in the list.")
-                return False
-        return True
-    
-    elif mode == "2":
-        for media in library:
-            if new_thing.lower() == media['title'].lower():
-                return True
-        return False
+    if bool(library) == False:
+        return
+    else:
+        if mode == "1":
+            for media in library:
+                if new_thing.lower() == media['title'].lower():
+                    print("That media is already in the list.")
+                    return False
+            return True
+        
+        elif mode == "2":
+            for media in library:
+                if new_thing.lower() == media['title'].lower():
+                    return True
+            return False
 
 def basic_view(library):
-
-    for i in library:
-        number = library.index(i) + 1
-        print(f"{number}. {i['title']} by {i['creator']}")
+    if bool(library) == False:
+        print("Your library is empty.")
+        return
+    else:
+        for i in library:
+            number = library.index(i) + 1
+            print(f"{number}. {i['title']} by {i['creator']}")
 
 def detailed_view(library):
-    for i in library:
-        number = library.index(i) + 1
-        print(f"{number}. {i['title']} by {i['creator']}. A(n) {i['genre']} (whatever it is) published in {i['year']}.")
+    if bool(library) == False:
+        print("Your library is empty.")
+        return
+    else:
+        for i in library:
+            number = library.index(i) + 1
+            print(f"{number}. {i['title']} by {i['creator']}. A(n) {i['genre']} (whatever it is) published in {i['year']}.")
 
 def add_item(library):
     new_media = {}
@@ -58,72 +67,85 @@ def add_item(library):
     return new_media
 
 def delete_item(library):
-    basic_view(library)
-    while True:
-        item_to_delete = input("Enter the name of the media you want to remove exactly as seen in the list.").lower().strip()
-        exists = check_if_exists(library,item_to_delete,mode="2")
-        if exists == False:
-            print("That is not an item in the library.")
-        else:
-            for i in library:
-                if item_to_delete == i['title'].lower():
-                    library.pop(i)
-                    break
-                else:
-                    pass
-            break
-    
-    return library
+    if bool(library) == False:
+        print("Your library is empty.")
+        return
+    else:
+        basic_view(library)
+        while True:
+            item_to_delete = input("Enter the name of the media you want to remove exactly as seen in the list.").lower().strip()
+            exists = check_if_exists(library,item_to_delete,mode="2")
+            if exists == False:
+                print("That is not an item in the library.")
+            else:
+                for i in library:
+                    if item_to_delete == i['title'].lower():
+                        library.remove(i)
+                        break
+                    else:
+                        pass
+                break
+        
+        return library
  
 def update_item(library,new_thing,item_to_update,mode):
     for i in library:
         if item_to_update == i[mode].lower():
             i[mode] == new_thing
-
-    return library
+            return library
 
 def update_item_menu(library):
-    detailed_view(library)
-    while True:
-        item_to_update = input("Enter the name of the media you want to update exactly as seen on the list.").lower()
-        exists = check_if_exists(library,item_to_update,mode="2")
-        if exists == False:
-            print("That piece of media is not in the list.")
-        else:
-            while True:
-                thing_to_change = input("What would you like to update?\n1. Title\n2. Creator Name\n3. year of Release\n4. Genre(s)\nEnter number:\n").strip()
-                match thing_to_change:
-                    case "1":
-                        new_title = input("Enter the new title for the media you are updating.").strip()
-                        library = update_item(library,new_title,item_to_update,mode='title')
-                    case "2":
-                        new_creator = input("Enter the name of the creator for the media you are updating.").strip()
-                        library = update_item(library,new_creator,item_to_update,mode='creator')
-                    case "3":
-                        new_year = input("Enter the year of release for the media you are updating.").strip()
-                        library = update_item(library,new_year,item_to_update,mode='year')
-                    case "4":
-                        new_genres = input("Enter the new genre(s) for the media you are updating. If there are multiple, seperate them with a forward slash (/).").strip()
-                        library = update_item(library,new_genres,item_to_update,mode='genre')
-                    case _:
-                        print("Please enter 1, 2, 3, or 4.")
-                        continue
-                continue_update = input("Would you like to continue updating this item? Y/N:\n").strip().capitalize()
-                if continue_update == "Y":
-                    continue
-                else:
-                    break
-        return library
+    if bool(library) == False:
+        print("Your library is empty.")
+        return
+    else:
+        detailed_view(library)
+        while True:
+            item_to_update = input("Enter the name of the media you want to update exactly as seen on the list.").lower()
+            exists = check_if_exists(library,item_to_update,mode="2")
+            if exists == False:
+                print("That piece of media is not in the list.")
+                continue
+            else:
+                while True:
+                    thing_to_change = input("What would you like to update?\n1. Title\n2. Creator Name\n3. year of Release\n4. Genre(s)\nEnter number:\n").strip()
+                    match thing_to_change:
+                        case "1":
+                            new_title = input("Enter the new title for the media you are updating.").strip()
+                            for i in library:
+                                if item_to_update == i['title'].lower():
+                                    i['title'] == new_title
+                                    break            
+                            return library
+                        case "2":
+                            new_creator = input("Enter the name of the creator for the media you are updating.").strip()
+                            library = update_item(library,new_creator,item_to_update,mode='creator')
+                            return library
+                        case "3":
+                            new_year = input("Enter the year of release for the media you are updating.").strip()
+                            library = update_item(library,new_year,item_to_update,mode='year')
+                            return library
+                        case "4":
+                            new_genres = input("Enter the new genre(s) for the media you are updating. If there are multiple, seperate them with a forward slash (/).").strip()
+                            library = update_item(library,new_genres,item_to_update,mode='genre')
+                            return library
+                        case _:
+                            print("Please enter 1, 2, 3, or 4.")
+                            continue
+                    
+                    
 
 def save_library(library):
 
     # This clears the library file.
     with open("individual_projects/personal_library.csv",mode="w") as new_library:
-        pass
+        writer = csv.writer(new_library)
+        writer.writerow(['title','creator','year','genre'])
 
     # Iterate through the library list, appending each dictionary (book) to the csv file on a new row
     with open("individual_projects/personal_library.csv",mode="a",newline='') as new_library:
-        writer = csv.writer(new_library)
+        fieldnames = ['title','creator','year','genre']
+        writer = csv.DictWriter(new_library,fieldnames)
         for i in library:
             writer.writerow(i)
 
