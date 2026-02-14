@@ -89,10 +89,10 @@ def delete_item(library):
         return library
  
 def update_item(library,new_thing,item_to_update,mode):
-    for i in library:
-        if item_to_update == i[mode].lower():
-            i[mode] == new_thing
-            return library
+    for item in library:
+        if item_to_update == item[mode].lower():
+            item[mode] = new_thing
+            return item
 
 def update_item_menu(library):
     if bool(library) == False:
@@ -112,22 +112,31 @@ def update_item_menu(library):
                     match thing_to_change:
                         case "1":
                             new_title = input("Enter the new title for the media you are updating.").strip()
-                            for i in library:
-                                if item_to_update == i['title'].lower():
-                                    i['title'] == new_title
-                                    break            
+                            updated_item = update_item(library,new_title,item_to_update,mode='title')
+                            for item in library:
+                                if item_to_update == item['title'].lower():
+                                    item = updated_item
                             return library
                         case "2":
                             new_creator = input("Enter the name of the creator for the media you are updating.").strip()
-                            library = update_item(library,new_creator,item_to_update,mode='creator')
+                            updated_item = update_item(library,new_creator,item_to_update,mode='creator')
+                            for item in library:
+                                if item_to_update == item['title'].lower():
+                                    item = updated_item
                             return library
                         case "3":
                             new_year = input("Enter the year of release for the media you are updating.").strip()
-                            library = update_item(library,new_year,item_to_update,mode='year')
+                            updated_item = update_item(library,new_year,item_to_update,mode='year')
+                            for item in library:
+                                if item_to_update == item['title'].lower():
+                                    item = updated_item
                             return library
                         case "4":
                             new_genres = input("Enter the new genre(s) for the media you are updating. If there are multiple, seperate them with a forward slash (/).").strip()
-                            library = update_item(library,new_genres,item_to_update,mode='genre')
+                            updated_item = update_item(library,new_genres,item_to_update,mode='genre')
+                            for item in library:
+                                if item_to_update == item['title'].lower():
+                                    item = updated_item
                             return library
                         case _:
                             print("Please enter 1, 2, 3, or 4.")
@@ -148,20 +157,20 @@ def search_library(library):
         match search_item:
             case "1":
                 mode = 'title'
-                search_title = input("Enter the title of the item you want to find:\n").lower()
-                matching_items = search_for_item(matching_items,mode,library,search_title)
-            case "1":
-                mode = 'title'
-                search_title = input("Enter the name of the creator of the item you want to find:\n").lower()
-                matching_items = search_for_item(matching_items,mode,library,search_title)
-            case "1":
-                mode = 'title'
-                search_title = input("Enter the release year of the item you want to find:\n").lower()
-                matching_items = search_for_item(matching_items,mode,library,search_title)
-            case "1":
-                mode = 'title'
-                search_title = input("Enter the genre of the item you want to find:\n").lower()
-                matching_items = search_for_item(matching_items,mode,library,search_title)
+                search_term = input("Enter the title of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_term)
+            case "2":
+                mode = 'creator'
+                search_term = input("Enter the name of the creator of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_term)
+            case "3":
+                mode = 'year'
+                search_term = input("Enter the release year of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_term)
+            case "4":
+                mode = 'genre'
+                search_term = input("Enter the genre of the item you want to find:\n").lower()
+                matching_items = search_for_item(matching_items,mode,library,search_term)
             case _:
                 print("Please enter 1, 2, 3, or 4.")
                 continue
