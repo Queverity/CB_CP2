@@ -1,4 +1,4 @@
-title,creator,year,genre
+title,creator,year,genre
 Halo Two,Bungie,2004,Action/Shooter
 halo one,Bungie,2001,Action/Shooter
 Halo Three,Bungie,2007,Action/Shooter
@@ -7,7 +7,6 @@ Halo Five,343 Studios,2015,Action/Shooter
 Halo Infinite,343 Studios,2021,Action/Shooter
 Halo Four,343 Studios,2012,Action/Shooter
 Half-Life,Valve,1998,Action/Shooter
-Half-Life 2,Valve,2004,Action/Shooter
 Call of Duty 4: Modern Warfare,Infinity Ward,2007,Action/Shooter
 Call of Duty: Black Ops,Treyarch,2010,Action/Shooter
 Battlefield 3,DICE,2011,Action/Shooter
@@ -24,10 +23,11 @@ Grand Theft Auto V,Rockstar North,2013,Action/Adventure
 The Legend of Zelda: Breath of the Wild,Nintendo,2017,Action/Adventure
 Super Mario Odyssey,Nintendo,2017,Platformer
 Dark Souls,FromSoftware,2011,Action/RPG
-Mass Effect 2,BioWare,2010,Action/RPG
+Mass Effect 2,BioWare,2010,change
 Among Us,InnerSloth,2018,Party/Social
 League of Legends,Riot Games,2009,MOBA
 Dota 2,Valve,2013,MOBA
 Counter-Strike: Global Offensive,Valve,2012,Action/Shooter
 Apex Legends,Respawn Entertainment,2019,Action/Shooter
 Destiny,Bungie,2014,Action/Shooter
+Diablo 2,Blizzard,2000,Hack and Slash
