@@ -36,7 +36,7 @@ else:
 # Writing to a CSV
 new_username = ['Queverity','Burgundy']
 
-with open("notes/sample.csv","r+",newline='') as csvfile:
+with open("documents//sample.csv","r+",newline='') as csvfile:
     # delimiter is the thing that seperates your items
     fieldnames = ['username','favorite_color']
     reader = csv.reader(csvfile)

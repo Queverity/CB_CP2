@@ -6,7 +6,7 @@ def list_parser():
     # using try/except for error handling
     try:
         # Open the movie list file, find the headers of the file, make a list of dictionaries where each dictionary is a movie
-        with open("individual_projects/movies_list.csv", mode = "r") as movies_list:
+        with open("documents//movies_list.csv", mode = "r") as movies_list:
             content = csv.reader(movies_list)
             headers = next(content)
             movies = []
@@ -153,7 +153,7 @@ def new_movie_data(movies):
 def add_movie(new_movie):
     # open the movies list file, write the new_movie list to it
     try:
-        with open("individual_projects/movies_list.csv",'a',newline='') as movies:
+        with open("documents//movies_list.csv",'a',newline='') as movies:
             writer = csv.writer(movies)
             writer.writerow(new_movie)
     except:

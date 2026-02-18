@@ -5,7 +5,7 @@ import csv
 
 # Opening a File
 try:
-    with open("notes/reading.txt","r") as file:
+    with open("documents//reading.txt","r") as file:
         for line in file:
             print(f"Hello {line.strip()}")
 except:
@@ -15,7 +15,7 @@ else:
     print("End")
 
 try:
-    with open("notes/sample.csv",mode = "r") as demo:
+    with open("documents//sample.csv",mode = "r") as demo:
         content = csv.reader(demo)
         headers = next(content)
         rows = []
