@@ -15,7 +15,12 @@ from word_time import find_datetime
     # parse the document again
     # return document
 
+
+
 # define function find_word_count(document):
+    # create a variable to hold the word count
+    # turn the document into a single string, then turn into a list where each word is one item
+    # iterate through that list, adding one to word count each iteration
     # word_count = 0
     # string_document = ' '.join(string_document)
     # listified_document = document.split()
@@ -23,7 +28,16 @@ from word_time import find_datetime
         # word_count += 1
     # return word_count
 
+# define display_text(document):
+    # call find_word_count
+    # for i in document:
+        # print(i)
+    # display f"Word Count: {word_count}"
+    # return
+
 # define function main_menu():
+    # display a description of the program
+    # run a while loop, ask user for the file path of the document they want to edit, then display the main menu
     # print("This is a text file editor that allows you to view the word count of the file and edit it.")
     # while True:
         # file_path = input("Enter the file path for the document you want to edit:\n")
@@ -43,7 +57,7 @@ from word_time import find_datetime
                     # display "Please enter 1, 2, 3, or 4."
                     # continue
 
-def parse_score_document(file_path):
+def parse_document(file_path):
     with open(file_path,mode="r") as text_file:
         document = []
         for line in text_file:
@@ -58,6 +72,44 @@ def update_document(file_path,document):
     with open(file_path,mode="a") as text_file:
         date_time = find_datetime(datetime)
         text_file.write(date_time)
+
+def find_word_count(document):
+    word_count = 0
+    string_document = ' '.join(document)
+    listified_document = string_document.split()
+    for i in listified_document:
+        word_count += 1
+    return word_count
+
+def display_text(document):
+    if bool(document) == False:
+        print("There is nothing in your document.")
+    else:
+        word_count = find_word_count(document)
+        for i in document:
+            print(i)
+        print(f"Word Count: {word_count}")
+
+def main_menu():
+    print("This is a text file editor that allows you to edit text files (wow) and allows you to view the word count.")
+    while True:
+        file_path = input("Enter the file path of the document you want to edit. Example: document//text_file")
+        document = parse_document(file_path)
+        action = input("What would you like to do?\n1. Save Document\n2. View Document and Word Count\n3. Add content to document\n4. Exit\nEnter Number:\n")
+        match action:
+            case "1":
+                pass
+            case "2":
+                pass
+            case "3":
+                pass
+            case "4":
+                pass
+            case _:
+                print("Please enter 1, 2, 3, or 4.")
+                continue
+
+
 
 
 
