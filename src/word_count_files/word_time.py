@@ -2,10 +2,6 @@
 
 import datetime as date
 
-current_datetime = date.datetime.now()
-print(current_datetime)
-
-today = date.date.today()
-print(today)
-
-
+# define function find_datetime():
+    # current_time = date.datetime.now()
+    # return current_time
