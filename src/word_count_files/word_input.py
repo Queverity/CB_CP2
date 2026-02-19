@@ -9,4 +9,10 @@
         # else:
             # new_text.append(text)
 
-# define function find_word_count()
+# define function find_word_count(document):
+    # word_count = 0
+    # string_document = ' '.join(string_document)
+    # listified_document = document.split()
+    # for i in listified_document:
+        # word_count += 1
+    # return word_count
