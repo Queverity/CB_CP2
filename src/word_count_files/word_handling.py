@@ -1,6 +1,8 @@
 # CB 1st Word Counter File Handling
 
 # from word_time import find_datetime
+from datetime import datetime
+from word_time import find_datetime
 
 # define function parse_document(file_path):
     # use with open() to parse the text file
@@ -12,6 +14,14 @@
     # run find_datetime and append the current time to the end of the file
     # parse the document again
     # return document
+
+# define function find_word_count(document):
+    # word_count = 0
+    # string_document = ' '.join(string_document)
+    # listified_document = document.split()
+    # for i in listified_document:
+        # word_count += 1
+    # return word_count
 
 # define function main_menu():
     # print("This is a text file editor that allows you to view the word count of the file and edit it.")
@@ -33,7 +43,23 @@
                     # display "Please enter 1, 2, 3, or 4."
                     # continue
 
-    
+def parse_score_document(file_path):
+    with open(file_path,mode="r") as text_file:
+        document = []
+        for line in text_file:
+            document.append(line)
+        return document
+
+def update_document(file_path,document):
+    with open(file_path,mode="w") as text_file:
+        for line in document:
+            text_file.write(line)
+
+    with open(file_path,mode="a") as text_file:
+        date_time = find_datetime(datetime)
+        text_file.write(date_time)
+
+
 
 # for input, each row in the text document will be saved in a list, and to make it s the user will need to hit enter twice to finsh their work, we can have the typing be in a while loop, and if the string the user enters is empty, break the loop
     
