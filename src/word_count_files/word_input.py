@@ -15,10 +15,11 @@
 
 def input_text(text):
     new_text = []
-    text = input("Type text you want to add in here, or type in 'done' to exit:\n").strip()
+    
     while True:
-        if text == "":
+        text = input("Type text you want to add in here, or type in 'done' to exit:\n").strip()
+        if text == "done":
             return new_text
         else:
             new_text.append(text)
-
+            continue

@@ -4,6 +4,7 @@
 from datetime import datetime
 from word_time import find_datetime
 from word_input import input_text
+import time
 # define function parse_document(file_path):
     # use with open() to parse the text file
     # write each row to document, then write the datetime as the final row
@@ -56,6 +57,8 @@ from word_input import input_text
                 # case _:
                     # display "Please enter 1, 2, 3, or 4."
                     # continue
+def clear_screen():
+    print("\033c", end="")
 
 def parse_document(file_path):
     try:
@@ -64,7 +67,7 @@ def parse_document(file_path):
             if bool(text_file) == False:
                 return document
             else:
-                for line in text_file:
+                for line in text_file:  
                     document.append(line)
                 return document
     except:
@@ -73,12 +76,20 @@ def parse_document(file_path):
         with open(file_path,"w") as text_file:
             document = []
             return document
-    
+
+def find_update_time(document):   
+    count = -2
+    for _ in document:
+        count += 1
+
+    for i in document:
+        if document.index(i) == count:
+            return i,count
 
 def update_document(file_path,document):
     with open(file_path,mode="w") as text_file:
         for line in document:
-            text_file.write(line)
+            text_file.write(line+"\n")
 
     with open(file_path,mode="a",newline='') as text_file:
         date_time = find_datetime(datetime)
@@ -97,10 +108,17 @@ def display_text(document):
         print("There is nothing in your document.")
     else:
         word_count = find_word_count(document)
+        update_time,count = find_update_time(document)
+
         for i in document:
-            print(i)
+            if document.index(i) == count:
+                pass
+            else:
+                print(i)
         
         print(f"Word Count: {word_count}")
+        print(update_time)
+
 
 def main_menu():
     print("This is a text file editor that allows you to edit text files (wow) and allows you to view the word count.")
@@ -114,27 +132,40 @@ def main_menu():
                 position = "src/word_count_files/"
                 file_path = position + file_path
                 document = parse_document(file_path)
+                clear_screen()
                 while True:
                     action = input("What would you like to do?\n1. Save Document\n2. View Document and Word Count\n3. Add content to document\n4. Exit\nEnter Number:\n")
                     match action:
                         case "1":
                             update_document(file_path,document)
+                            print("Document saved.")
+                            time.sleep(1)
+                            clear_screen()
                             continue
                         case "2":
                             display_text(document)
-                            continue
+                            move_on = input("Press enter to continue:").strip()
+                            if move_on == "":
+                                clear_screen()
+                                continue
+                            else:
+                                print("That wasn't enter, was it?")
+                                clear_screen()
+                                continue
                         case "3":
+                            clear_screen()
                             new_text = input_text(document)
                             for i in new_text:
                                 document.append(i)
+                            clear_screen()
                             continue
                         case "4":
                             print("Are you sure you want to exit?")
                             keep_going = input("Y/N:\n").strip().capitalize()
                             if keep_going == "Y":
-                                continue
-                            else:
                                 break
+                            else:
+                                continue
                         case _:
                             print("Please enter 1, 2, 3, or 4.")
                             continue

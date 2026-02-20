@@ -24,6 +24,8 @@ def find_datetime(datetime):
 
     time = f"{hour}:{minute}:{second}"
     
-    date_time = f"{date} {time}"
+    date_time = f"Last updated: {date} {time}"
+
+    
 
     return date_time
