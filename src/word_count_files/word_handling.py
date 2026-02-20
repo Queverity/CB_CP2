@@ -3,7 +3,7 @@
 # from word_time import find_datetime
 from datetime import datetime
 from word_time import find_datetime
-
+from word_input import input_text
 # define function parse_document(file_path):
     # use with open() to parse the text file
     # write each row to document, then write the datetime as the final row
@@ -69,7 +69,7 @@ def update_document(file_path,document):
         for line in document:
             text_file.write(line)
 
-    with open(file_path,mode="a") as text_file:
+    with open(file_path,mode="a",newline='') as text_file:
         date_time = find_datetime(datetime)
         text_file.write(date_time)
 
@@ -77,7 +77,7 @@ def find_word_count(document):
     word_count = 0
     string_document = ' '.join(document)
     listified_document = string_document.split()
-    for i in listified_document:
+    for _ in listified_document:
         word_count += 1
     return word_count
 
@@ -88,6 +88,7 @@ def display_text(document):
         word_count = find_word_count(document)
         for i in document:
             print(i)
+        
         print(f"Word Count: {word_count}")
 
 def main_menu():
@@ -98,13 +99,14 @@ def main_menu():
         action = input("What would you like to do?\n1. Save Document\n2. View Document and Word Count\n3. Add content to document\n4. Exit\nEnter Number:\n")
         match action:
             case "1":
-                pass
+                update_document(file_path,document)
             case "2":
-                pass
+                display_text(document)
             case "3":
-                pass
+                new_text = input_text(document)
             case "4":
-                pass
+                print("Are you sure you want to exit?")
+                keep_going = input("Y/N:\n").strip().capitalize()
             case _:
                 print("Please enter 1, 2, 3, or 4.")
                 continue
