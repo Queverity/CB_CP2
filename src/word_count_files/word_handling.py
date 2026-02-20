@@ -58,11 +58,22 @@ from word_input import input_text
                     # continue
 
 def parse_document(file_path):
-    with open(file_path,mode="r") as text_file:
-        document = []
-        for line in text_file:
-            document.append(line)
-        return document
+    try:
+        with open(file_path,mode="r") as text_file:
+            document = []
+            if bool(text_file) == False:
+                return document
+            else:
+                for line in text_file:
+                    document.append(line)
+                return document
+    except:
+        with open(file_path,"x") as text_file:
+            pass
+        with open(file_path,"w") as text_file:
+            document = []
+            return document
+    
 
 def update_document(file_path,document):
     with open(file_path,mode="w") as text_file:
@@ -94,22 +105,40 @@ def display_text(document):
 def main_menu():
     print("This is a text file editor that allows you to edit text files (wow) and allows you to view the word count.")
     while True:
-        file_path = input("Enter the file path of the document you want to edit. Example: document//text_file")
-        document = parse_document(file_path)
-        action = input("What would you like to do?\n1. Save Document\n2. View Document and Word Count\n3. Add content to document\n4. Exit\nEnter Number:\n")
-        match action:
-            case "1":
-                update_document(file_path,document)
-            case "2":
-                display_text(document)
-            case "3":
-                new_text = input_text(document)
-            case "4":
-                print("Are you sure you want to exit?")
-                keep_going = input("Y/N:\n").strip().capitalize()
-            case _:
-                print("Please enter 1, 2, 3, or 4.")
-                continue
+        file_path = input("Enter the file path of the document you want to edit. Make sure to enter .txt after the file name. Before your file name include 'src/word_count_files/'.").strip()
+        if '.txt' not in file_path:
+            print("Make sure to include .txt")
+            continue
+        else:
+            if "src/word_count_files/" not in file_path:
+                position = "src/word_count_files/"
+                file_path = position + file_path
+                document = parse_document(file_path)
+                while True:
+                    action = input("What would you like to do?\n1. Save Document\n2. View Document and Word Count\n3. Add content to document\n4. Exit\nEnter Number:\n")
+                    match action:
+                        case "1":
+                            update_document(file_path,document)
+                            continue
+                        case "2":
+                            display_text(document)
+                            continue
+                        case "3":
+                            new_text = input_text(document)
+                            for i in new_text:
+                                document.append(i)
+                            continue
+                        case "4":
+                            print("Are you sure you want to exit?")
+                            keep_going = input("Y/N:\n").strip().capitalize()
+                            if keep_going == "Y":
+                                continue
+                            else:
+                                break
+                        case _:
+                            print("Please enter 1, 2, 3, or 4.")
+                            continue
+                break
 
 
 

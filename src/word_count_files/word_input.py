@@ -15,8 +15,8 @@
 
 def input_text(text):
     new_text = []
+    text = input("Type text you want to add in here, or type in 'done' to exit:\n").strip()
     while True:
-        text = input("Type text you want to add in here, or press enter on an empty line to save:\n").strip()
         if text == "":
             return new_text
         else:
