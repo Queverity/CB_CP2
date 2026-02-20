@@ -20,7 +20,6 @@ def find_datetime(datetime):
     hour = current_time.hour
     minute = current_time.minute
     second = current_time.second
-    second = round(second,2)
 
     time = f"{hour}:{minute}:{second}"
     

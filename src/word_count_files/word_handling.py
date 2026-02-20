@@ -78,7 +78,7 @@ def parse_document(file_path):
             return document
 
 def find_update_time(document):   
-    count = -2
+    count = -1
     for _ in document:
         count += 1
 
@@ -89,7 +89,10 @@ def find_update_time(document):
 def update_document(file_path,document):
     with open(file_path,mode="w") as text_file:
         for line in document:
-            text_file.write(line+"\n")
+            if "Last updated:" in line:
+                pass
+            else:
+                text_file.write(line+"\n")
 
     with open(file_path,mode="a",newline='') as text_file:
         date_time = find_datetime(datetime)
