@@ -120,7 +120,10 @@ def display_text(document):
                 print(i)
         
         print(f"Word Count: {word_count}")
-        print(update_time)
+        if "Last updated:" not in update_time:
+            pass
+        else:
+            print(update_time)
 
 
 def main_menu():
