@@ -20,21 +20,39 @@ wn = turtle.Screen()
 wn.bgcolor("green")
 wn.title("Triangle")
 
+illustrator = turtle.Turtle()
+illustrator.turtlesize(3,3)
+illustrator.color("red")
+illustrator.speed(10)
+illustrator.width(3)
+
 set_fractal_depth = 5
 for i in range(1,6):
-    distance = 1200/set_fractal_depth
+    distance = 1200/2**set_fractal_depth
     set_fractal_depth -= 1
-    illustrator = turtle.Turtle()
-    illustrator.turtlesize(3,3)
-    illustrator.color("red")
-    illustrator.width(3)
+    
     illustrator.teleport(-600,-525)
-    illustrator.forward(distance)
-    illustrator.left(120)
-    illustrator.forward(distance)
-    illustrator.left(120)
-    illustrator.forward(distance)
-    illustrator.left(120)
+    def draw_triangle(distance):
+        illustrator.forward(distance)
+        illustrator.left(120)
+        illustrator.forward(distance)
+        illustrator.left(120)
+        illustrator.forward(distance)
+        illustrator.left(120)
+    for i in range(1,4):
+        draw_triangle(distance)
+        illustrator.forward(distance)
+        draw_triangle(distance)
+        illustrator.backward(distance)
+        illustrator.left(60)
+        illustrator.forward(distance)
+        illustrator.right(60)
+        draw_triangle(distance)
+        illustrator.left(60)
+        illustrator.backward(distance)
+        illustrator.right(60)
+        illustrator.forward(distance*2)
+        
 
 
 turtle.done()
