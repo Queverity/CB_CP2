@@ -3,9 +3,42 @@
 
 import turtle
 from turtle2img import save_png
+
+# define function intialize_turtle()
+
 # define function draw_sierpinski(fractal_depth,fractal_color):
     # so the basics of a sierpinski triangle is drawing a triangle inside another triangle, where the vertexes are on the midpoints of the first triangle, and the sides are half the length of the first triangle
     # base case: fractal depth equals set fractal depth
+
+def draw_sierpinski(current_fractal_depth,set_fractal_depth):
+    if current_fractal_depth > set_fractal_depth: return
+    current_fractal_depth += 1
+    return 1200/current_fractal_depth, draw_sierpinski(current_fractal_depth,set_fractal_depth)
+
+
+wn = turtle.Screen()
+wn.bgcolor("green")
+wn.title("Triangle")
+
+set_fractal_depth = 5
+for i in range(1,6):
+    distance = 1200/set_fractal_depth
+    set_fractal_depth -= 1
+    illustrator = turtle.Turtle()
+    illustrator.turtlesize(3,3)
+    illustrator.color("red")
+    illustrator.width(3)
+    illustrator.teleport(-600,-525)
+    illustrator.forward(distance)
+    illustrator.left(120)
+    illustrator.forward(distance)
+    illustrator.left(120)
+    illustrator.forward(distance)
+    illustrator.left(120)
+
+
+turtle.done()
+
 
 # define function draw_koch(fractal_depth,fractal_color):
 
