@@ -2,7 +2,6 @@
 # Note: turtle2img needs to be downloaded
 
 import turtle
-from turtle2img import save_png
 
 # define function intialize_turtle()
 
