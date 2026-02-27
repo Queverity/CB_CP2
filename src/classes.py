@@ -1,29 +1,44 @@
-# CB 1st Classes
+import turtle
 
-class Stats:
-    def __init__(self,health,offense,defense,speed):
-        self.health = health
-        self.offense = offense
-        self.defense = defense
-        self.speed = speed
+def drawTriangle(points,color,myTurtle):
+    myTurtle.fillcolor(color)
+    myTurtle.up()
+    myTurtle.goto(points[0][0],points[0][1])
+    myTurtle.down()
+    myTurtle.begin_fill()
+    myTurtle.goto(points[1][0],points[1][1])
+    myTurtle.goto(points[2][0],points[2][1])
+    myTurtle.goto(points[0][0],points[0][1])
+    myTurtle.end_fill()
 
-    def print_stats(self):
-        print(f"Health: {self.health}")
-        print(f"Offense: {self.offense}")
-        print(f"Defense: {self.defense}")
-        print(f"Speed: {self.speed}")
-        
+def getMid(p1,p2):
+    return ( (p1[0]+p2[0]) / 2, (p1[1] + p2[1]) / 2)
 
-player = Stats(100,10,10,10)
-player.print_stats()
+def sierpinski(points,degree,myTurtle):
+    colormap = ['aqua','aquamarine', 'lavender', 'lightskyblue',
+                'lightskyblue', 'slateblue']
+    drawTriangle(points,colormap[degree],myTurtle)
+    if degree > 0:
+        sierpinski([points[0],
+                        getMid(points[0], points[1]),
+                        getMid(points[0], points[2])],
+                   degree-1, myTurtle)
+        sierpinski([points[1],
+                        getMid(points[0], points[1]),
+                        getMid(points[1], points[2])],
+                   degree-1, myTurtle)
+        sierpinski([points[2],
+                        getMid(points[2], points[1]),
+                        getMid(points[0], points[2])],
+                   degree-1, myTurtle)
 
-player.health -= 99
-player.print_stats()
+def main():
+   myTurtle = turtle.Turtle()
+   myWin = turtle.Screen()
+   myPoints = [[200,-100],[0,200],[-200,-100]]
+   sierpinski(myPoints,5,myTurtle)
+   myWin.exitonclick()
 
-
-if player.health <= 0:
-    print("You died!")
-else:
-    pass
+main()
 
 
