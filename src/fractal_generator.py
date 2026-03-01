@@ -2,6 +2,7 @@
 # Note: turtle2img needs to be downloaded
 
 import turtle
+import turtle2img
 
 # define function intialize_turtle()
 
@@ -9,84 +10,9 @@ import turtle
     # so the basics of a sierpinski triangle is drawing a triangle inside another triangle, where the vertexes are on the midpoints of the first triangle, and the sides are half the length of the first triangle
     # base case: fractal depth equals set fractal depth
 
-def draw_sierpinski(current_fractal_depth,set_fractal_depth):
-    if current_fractal_depth > set_fractal_depth: return
-    current_fractal_depth += 1
-    
-        
-    for i in range(1,6):
-        distance = 1200/2**set_fractal_depth
-        set_fractal_depth -= 1
-        
-        illustrator.teleport(-600,-525)
-        def draw_triangle(distance):
-            illustrator.forward(distance)
-            illustrator.left(120)
-            illustrator.forward(distance)
-            illustrator.left(120)
-            illustrator.forward(distance)
-            illustrator.left(120)
-        
-        count = 0
-        for _ in range(1,4):
-                if count == 2:
-                    count = 0 
-                    illustrator.backward(distance*4)
-                    illustrator.left(60)
-                    illustrator.forward(distance*2)
-                    illustrator.right(60)
-                    # This is only to draw the very top triangle
-                    draw_triangle(distance)
-                    illustrator.forward(distance)
-                    draw_triangle(distance)
-                    illustrator.backward(distance)
-                    illustrator.left(60)
-                    illustrator.forward(distance)
-                    illustrator.right(60)
-                    draw_triangle(distance)
-                    illustrator.left(60)
-                    illustrator.backward(distance)
-                    illustrator.right(60)
-                    illustrator.forward(distance*2)
-                else:
-                    count += 1
-                    draw_triangle(distance)
-                    illustrator.forward(distance)
-                    draw_triangle(distance)
-                    illustrator.backward(distance)
-                    illustrator.left(60)
-                    illustrator.forward(distance)
-                    illustrator.right(60)
-                    draw_triangle(distance)
-                    illustrator.left(60)
-                    illustrator.backward(distance)
-                    illustrator.right(60)
-                    illustrator.forward(distance*2)
-                    
-    return draw_sierpinski(current_fractal_depth,set_fractal_depth)
-
-
-wn = turtle.Screen()
-wn.bgcolor("green")
-wn.title("Triangle")
-
-illustrator = turtle.Turtle()
-illustrator.turtlesize(3,3)
-illustrator.color("yellow")
-illustrator.speed(0) 
-illustrator.width(3)
-
-set_fractal_depth = 5
-
-draw_sierpinski(-3,5)
-
-
-turtle.done()
-
-
-# define function draw_koch(fractal_depth,fractal_color):
-
 # define function image_saver():
+    # use turtle2img to save the image as a png file
+
 
 # define function main_menu():
     # introduce program
@@ -102,3 +28,76 @@ turtle.done()
     # ask user if they would like to save it as an image
 
     # ask user if they would like to continue using the program
+
+
+def draw_triangle(distance,illustrator):
+    for _ in range(3):
+        illustrator.forward(distance)
+        illustrator.left(120)
+
+def draw_sierpinski(depth, distance,illustrator):
+    if depth == 0:
+        draw_triangle(distance,illustrator)
+    else:
+        draw_sierpinski(depth-1, distance/2,illustrator)
+
+        illustrator.forward(distance/2)
+        draw_sierpinski(depth-1, distance/2,illustrator)
+        illustrator.backward(distance/2)
+
+        illustrator.left(60)
+        illustrator.forward(distance/2)
+        illustrator.right(60)
+
+        draw_sierpinski(depth-1, distance/2,illustrator)
+
+        illustrator.left(60)
+        illustrator.backward(distance/2)
+        illustrator.right(60)
+
+
+def intilialize_turtle(background_color,turtle_color):
+    wn = turtle.Screen()
+    wn.bgcolor(background_color)
+    wn.title("Triangle")
+
+    illustrator = turtle.Turtle()
+    illustrator.turtlesize(3,3)
+    illustrator.color(turtle_color)
+    illustrator.speed(0) 
+    illustrator.width(3)
+    illustrator.teleport(-600,-475)
+
+    return illustrator
+
+def image_saver(file_name):
+    turtle2img.save_png(file_name)
+
+def main_menu():
+    print("This is a Sierpinski Triangle Fractal Generator!")
+    print("It will generate a triangle based on the fractal depth, color, and background color you set.")
+    while True:
+        fractal_depth = int(input("Please enter the fractal depth (1-6): "))
+        if fractal_depth < 1 or fractal_depth > 6:
+            print("Fractal depth must be between 1 and 6. Please try again.")
+            continue
+        background_color = input("Please enter the background color: ")
+        turtle_color = input("Please enter the fractal color: ")
+        try:
+            illustrator = intilialize_turtle(background_color,turtle_color)
+            draw_sierpinski(fractal_depth, 1200, illustrator)
+        except:
+            print("You have entered an invalid color. Please try again.")
+            continue
+        else:
+            save_image = input("Would you like to save the image as a png file? (y/n):\n").strip()
+            if save_image.lower() == "y":
+                file_name = input("Please enter the file name (without extension):\n").strip()
+                image_saver(file_name + ".png")
+            continue_program = input("Would you like to generate another fractal? (y/n):\n").strip()
+            if continue_program.lower() == "n":
+                print("Goodbye!")
+                break
+
+main_menu()
+
