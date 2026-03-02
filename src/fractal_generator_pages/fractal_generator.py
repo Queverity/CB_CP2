@@ -1,5 +1,5 @@
 # CB 1st Fractal Generator
-# Note: turtle2img needs to be downloaded
+# Note: turtle2img needs to be pip downloaded
 
 import turtle
 import turtle2img
@@ -73,7 +73,7 @@ def intilialize_turtle(background_color,turtle_color):
 def image_saver(file_name):
     turtle2img.save_png(file_name)
 
-def main_menu():
+def main():
     print("This is a Sierpinski Triangle Fractal Generator!")
     print("It will generate a triangle based on the fractal depth, color, and background color you set.")
     while True:
@@ -99,5 +99,5 @@ def main_menu():
                 print("Goodbye!")
                 break
 
-main_menu()
+main()
 
