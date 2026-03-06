@@ -14,5 +14,7 @@ def print_slow(text):
 
     print()
 
-def generate_number(range1,range2):
-    random_num = random.randint(range1,range2)
+def enter_to_continue():
+    print_slow("Press Enter to continue:\n")
+    input()
+    return

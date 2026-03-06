@@ -2,9 +2,9 @@ from helper import *
 
 
 def evaluate_number(guessed_number,goal_number):
-    if guessed_number > goal_number:
+    if guessed_number < goal_number:
         return "larger"
-    elif guessed_number < goal_number:
+    elif guessed_number > goal_number:
         return "smaller"
     else:
         return "Correct"
@@ -32,5 +32,5 @@ def number_input(goal_number):
         if is_number == False:
             clear_screen()
             continue
-        else:  
+        else: 
             return evaluate_number(is_number,goal_number)
