@@ -18,12 +18,12 @@ label.config(background = "pink")
 root.count = 0
 def add():
     root.count += 1
-    show_count.pack()
+    num["text"] = root.count
 
-show_count = tk.Label(root, text=root.count)
-show_count.pack()
-tk.Button(root, text = "ADD", command=add).pack()
-
+btn = tk.Button(root, text = "ADD", command=add)
+btn.pack()
+num = tk.Label(root,text="0")
+num.pack()
 
 label.pack()
 
