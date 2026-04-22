@@ -18,36 +18,81 @@ run = True
 on_ground = True
 gravity = 0.8
 
+RED = (255,0,0)
+GREEN = (0,255,0)
+BLUE = (0,0,255)
+WHITE = (255,255,255)
+BLACK = (0,0,0)
+
+class ColoredRect:
+    def __init__(self,x,y,w,h,color):
+        self.rect = pygame.Rect(x,y,w,h)
+        self.color = color
+    
+    def draw(self,surface):
+        pygame.draw.rect(surface,self.color,self.rect)
+    
+class Player(pygame.sprite.Sprite):
+    def __init__(self,x,y,w,h,color,on_ground):
+        super().__init__()
+        self.x = x
+        self.y = y
+        self.rect = pygame.Rect(self.x,self.y,w,h)
+        self.speed = 5
+        self.color = color
+        self.on_ground = on_ground
+
+    def get_input(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RIGHT]:
+            self.x += self.speed
+        elif keys[pygame.K_LEFT]:
+            self.x -= self.speed
+        elif keys[pygame.K_SPACE] and self.on_ground == True:
+            self.y -= vel_y
+            
+            self.on_ground = False
+
+            self.rect.y = self.y
+
+            if self.y > 480:
+                self.y == 480
+                self.on_ground = True
+
+        else:
+            pass
+
+    def draw(self,surface):
+        pygame.draw.rect(surface,self.color,self.rect)
+
+    def update(self,surface):
+        self.get_input()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.draw(surface)
+
+
+    
+
+
+player = Player(400,400,25,25,RED,on_ground)
+block = ColoredRect(300,300,50,50,BLUE)
+
 # infinite loop 
 while run: 
     pygame.time.Clock().tick(60)
 
+    old_x, old_y = x, y
+
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
             run = False
-    keys = pygame.key.get_pressed() 
+    
+    win.fill(WHITE)
 
-    if keys[pygame.K_LEFT] and x>0: 
-        x -= vel_x
+    
+    block.draw(win)
+    player.update(win)
 
-    if keys[pygame.K_RIGHT] and x<500-width: 
-        x += vel_x 
-
-    if keys[pygame.K_SPACE] and on_ground == True:
-        on_ground = False
-        vel_y -= 15
-
-
-    if not on_ground:
-        y += vel_y
-        vel_y += gravity
-
-        if y >= 480:
-            y = 480
-            on_ground = True
-            vel_y = 0
-
-    win.fill((255,255,255)) 
-    pygame.draw.rect(win, (255, 0, 0), (x, y, width, height)) 
-    pygame.draw.rect(win,(0,255,0),(400,400,100,100))
+    
     pygame.display.update() 
