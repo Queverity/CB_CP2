@@ -33,31 +33,38 @@ class ColoredRect:
         pygame.draw.rect(surface,self.color,self.rect)
     
 class Player(pygame.sprite.Sprite):
-    def __init__(self,x,y,w,h,color,on_ground):
+    def __init__(self,x,y,w,h,color):
         super().__init__()
         self.x = x
         self.y = y
         self.rect = pygame.Rect(self.x,self.y,w,h)
         self.speed = 5
         self.color = color
-        self.on_ground = on_ground
+        self.on_ground = True
+        self.gravity = 0.8
 
-    def get_input(self):
+    def get_input(self,vel_y):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and self.x != 475:
             self.x += self.speed
-        elif keys[pygame.K_LEFT]:
+            print(self.x)
+        if keys[pygame.K_LEFT] and self.x != 0:
             self.x -= self.speed
-        elif keys[pygame.K_SPACE] and self.on_ground == True:
+            print(self.x)
+        if keys[pygame.K_SPACE] and self.on_ground == True:
             self.y -= vel_y
             
             self.on_ground = False
 
             self.rect.y = self.y
 
-            if self.y > 480:
-                self.y == 480
+            if self.y >= 480:
+                self.y -= gravity
+                vel_y = 0
+
+            if self.y == 480:
                 self.on_ground = True
+                
 
         else:
             pass
@@ -66,7 +73,7 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(surface,self.color,self.rect)
 
     def update(self,surface):
-        self.get_input()
+        self.get_input(5)
         self.rect.x = self.x
         self.rect.y = self.y
         self.draw(surface)
@@ -75,7 +82,7 @@ class Player(pygame.sprite.Sprite):
     
 
 
-player = Player(400,400,25,25,RED,on_ground)
+player = Player(400,475,25,25,RED)
 block = ColoredRect(300,300,50,50,BLUE)
 
 # infinite loop 
